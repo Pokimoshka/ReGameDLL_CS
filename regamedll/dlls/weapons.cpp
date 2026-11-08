@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "weapon_accuracy.h"
 
 short g_sModelIndexLaser;		// holds the index for the laser beam
 short g_sModelIndexLaserDot;	// holds the index for the laser beam dot
@@ -732,6 +733,24 @@ LINK_HOOK_CLASS_VOID_CHAIN(CBasePlayerWeapon, KickBack, (float up_base, float la
 
 void EXT_FUNC CBasePlayerWeapon::__API_HOOK(KickBack)(float up_base, float lateral_base, float up_modifier, float lateral_modifier, float up_max, float lateral_max, int direction_change)
 {
+	// Custom accuracy rework: scale the punchangle kick by the player's stance.
+	float flVerticalScale, flLateralScale;
+	WeaponAccuracy_GetRecoilScale(m_pPlayer, this, flVerticalScale, flLateralScale);
+
+	if (flVerticalScale != 1.0f)
+	{
+		up_base *= flVerticalScale;
+		up_modifier *= flVerticalScale;
+		up_max *= flVerticalScale;
+	}
+
+	if (flLateralScale != 1.0f)
+	{
+		lateral_base *= flLateralScale;
+		lateral_modifier *= flLateralScale;
+		lateral_max *= flLateralScale;
+	}
+
 #ifdef REGAMEDLL_ADD
 	real_t flKickUp = up_base;
 	float flKickLateral = lateral_base;

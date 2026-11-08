@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "weapon_accuracy.h"
 
 BOOL pm_shared_initialized = FALSE;
 
@@ -1297,6 +1298,33 @@ void PM_Friction()
 
 		// player friction?
 		friction *= pmove->friction;
+
+#ifdef REGAMEDLL_ADD
+		// Counter-strafe assist: apply extra ground friction while movement
+		// keys are pressed against the current horizontal velocity. The
+		// accuracy model uses the real velocity, so stopping faster also
+		// restores accuracy faster.
+		if (pmove->server)
+		{
+			const float flForwardMove = pmove->cmd.forwardmove;
+			const float flSideMove = pmove->cmd.sidemove;
+
+			const float flWishVelX = pmove->forward[0] * flForwardMove + pmove->right[0] * flSideMove;
+			const float flWishVelY = pmove->forward[1] * flForwardMove + pmove->right[1] * flSideMove;
+			const float flWishLen = Q_sqrt(flWishVelX * flWishVelX + flWishVelY * flWishVelY);
+			const float flHorizSpeed = Q_sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
+
+			if (flWishLen > 0.001f && flHorizSpeed > WeaponAccuracy_GetStillSpeed())
+			{
+				const float flDot = (flWishVelX * vel[0] + flWishVelY * vel[1]) / flWishLen;
+
+				if (flDot < 0.0f)
+				{
+					friction *= WeaponAccuracy_GetCounterStrafeFriction();
+				}
+			}
+		}
+#endif
 
 		// Bleed off some speed, but if we have less than the bleed
 		// threshhold, bleed the theshold amount.

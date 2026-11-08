@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "weapon_accuracy.h"
 
 DLL_FUNCTIONS gFunctionTable =
 {
@@ -1184,6 +1185,21 @@ void CBaseEntity::__API_HOOK(FireBuckshots)(ULONG cShots, VectorRef vecSrc, Vect
 		pevAttacker = pev;
 	}
 
+	// Custom accuracy rework: scale the pellet cone by the attacker's stance.
+	// Shotguns do not get the perfect first shot, otherwise a single shell
+	// would turn into a slug.
+	if (pevAttacker && (pevAttacker->flags & FL_CLIENT))
+	{
+		CBasePlayer *pPlayer = CBasePlayer::Instance(pevAttacker);
+		CBasePlayerWeapon *pWeapon = (pPlayer && pPlayer->m_pActiveItem && pPlayer->m_pActiveItem->IsWeapon())
+			? static_cast<CBasePlayerWeapon *>(pPlayer->m_pActiveItem)
+			: nullptr;
+
+		float flSpreadScale = WeaponAccuracy_GetSpreadScale(pPlayer, pWeapon, false);
+		vecSpread.x *= flSpreadScale;
+		vecSpread.y *= flSpreadScale;
+	}
+
 	ClearMultiDamage();
 	gMultiDamage.type = (DMG_BULLET | DMG_NEVERGIB);
 
@@ -1328,6 +1344,17 @@ VectorRef CBaseEntity::__API_HOOK(FireBullets3)(VectorRef vecSrc, VectorRef vecD
 	{
 		// the default attacker is ourselves
 		pevAttacker = pev;
+	}
+
+	// Custom accuracy rework: scale the spread cone by the attacker's stance.
+	if (pevAttacker && (pevAttacker->flags & FL_CLIENT))
+	{
+		CBasePlayer *pPlayer = CBasePlayer::Instance(pevAttacker);
+		CBasePlayerWeapon *pWeapon = (pPlayer && pPlayer->m_pActiveItem && pPlayer->m_pActiveItem->IsWeapon())
+			? static_cast<CBasePlayerWeapon *>(pPlayer->m_pActiveItem)
+			: nullptr;
+
+		vecSpread *= WeaponAccuracy_GetSpreadScale(pPlayer, pWeapon, true);
 	}
 
 	gMultiDamage.type = (DMG_BULLET | DMG_NEVERGIB);

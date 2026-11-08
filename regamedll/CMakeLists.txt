@@ -262,6 +262,7 @@ set(GAMEDLL_SRCS
 	"dlls/tutor_cs_tutor.cpp"
 	"dlls/util.cpp"
 	"dlls/vehicle.cpp"
+	"dlls/weapon_accuracy.cpp"
 	"dlls/weapons.cpp"
 	"dlls/weapontype.cpp"
 	"dlls/world.cpp"

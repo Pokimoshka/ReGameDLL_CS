@@ -354,6 +354,7 @@
     <ClCompile Include="..\dlls\tutor_cs_tutor.cpp" />
     <ClCompile Include="..\dlls\util.cpp" />
     <ClCompile Include="..\dlls\vehicle.cpp" />
+    <ClCompile Include="..\dlls\weapon_accuracy.cpp" />
     <ClCompile Include="..\dlls\weapons.cpp" />
     <ClCompile Include="..\dlls\weapontype.cpp" />
     <ClCompile Include="..\dlls\world.cpp" />
@@ -750,6 +751,7 @@
     <ClInclude Include="..\dlls\vector.h" />
     <ClInclude Include="..\dlls\vehicle.h" />
     <ClInclude Include="..\dlls\weapons.h" />
+    <ClInclude Include="..\dlls\weapon_accuracy.h" />
     <ClInclude Include="..\dlls\weapontype.h" />
     <ClInclude Include="..\dlls\world.h" />
     <ClInclude Include="..\engine\cdll_int.h" />

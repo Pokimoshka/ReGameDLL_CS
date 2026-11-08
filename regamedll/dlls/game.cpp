@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "weapon_accuracy.h"
 
 cvar_t *g_pskill          = nullptr;
 cvar_t *g_psv_gravity     = nullptr;
@@ -515,6 +516,7 @@ void EXT_FUNC GameDLLInit()
 	Bot_RegisterCVars();
 	Tutor_RegisterCVars();
 	Hostage_RegisterCVars();
+	WeaponAccuracy_RegisterCvars();
 
 #ifdef REGAMEDLL_FIXES
 	VoiceGameMgr_RegisterCVars();

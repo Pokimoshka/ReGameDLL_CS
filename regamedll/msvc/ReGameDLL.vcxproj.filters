@@ -114,6 +114,9 @@
     <ClCompile Include="..\dlls\weapons.cpp">
       <Filter>dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\dlls\weapon_accuracy.cpp">
+      <Filter>dlls</Filter>
+    </ClCompile>
     <ClCompile Include="..\dlls\wpn_shared\wpn_ak47.cpp">
       <Filter>dlls\wpn_shared</Filter>
     </ClCompile>
@@ -651,6 +654,9 @@
       <Filter>dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\dlls\weapons.h">
+      <Filter>dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\weapon_accuracy.h">
       <Filter>dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\dlls\hintmessage.h">
