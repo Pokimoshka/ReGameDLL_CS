@@ -165,6 +165,11 @@ float WeaponAccuracy_GetSpreadScale(CBasePlayer *pPlayer, CBasePlayerWeapon *pWe
 		&& pWeapon->m_iShotsFired <= 1)
 	{
 		flScale = 0.0f;
+
+#ifdef REGAMEDLL_ADD
+		ALERT(at_console, "WeaponAccuracy: first shot perfect (stance=%d, shotsFired=%d, speed=%.1f)\n",
+			stance, pWeapon->m_iShotsFired, flSpeed);
+#endif
 	}
 
 	return Q_max(flScale, 0.0f);
